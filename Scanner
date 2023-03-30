@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  *
- * @author David y Alexa
+ * @author Alan
  */
 class Scanner {
     private final String source;
@@ -26,21 +26,24 @@ class Scanner {
     static {
         palabrasReservadas = new HashMap<>();
         palabrasReservadas.put("y", TipoToken.Y);
-        palabrasReservadas.put("clase", TipoToken.CLASE);
-        palabrasReservadas.put("ademas", TipoToken.ADEMAS);
-        palabrasReservadas.put("falso", TipoToken.FALSE);
-        palabrasReservadas.put("para", TipoToken.PARA);
-        palabrasReservadas.put("fun", TipoToken.FUN);
-        palabrasReservadas.put("si", TipoToken.SI);
-        palabrasReservadas.put("nulo", TipoToken.NULO);
+        palabrasReservadas.put("class", TipoToken.CLASS);
+        palabrasReservadas.put("else", TipoToken.ELSE);
+        palabrasReservadas.put("false", TipoToken.FALSE);
+        palabrasReservadas.put("for", TipoToken.FOR);
+        palabrasReservadas.put("funcion", TipoToken.FUN);
+        palabrasReservadas.put("if", TipoToken.IF);
+        palabrasReservadas.put("null", TipoToken.NULL);
         palabrasReservadas.put("o", TipoToken.O);
-        palabrasReservadas.put("imprimir", TipoToken.IMPRIMIR);
-        palabrasReservadas.put("retornar", TipoToken.RETORNAR);
+        palabrasReservadas.put("println", TipoToken.PRINTLN);
+        palabrasReservadas.put("return", TipoToken.RETURN);
         palabrasReservadas.put("super", TipoToken.SUPER);
-        palabrasReservadas.put("este", TipoToken.ESTE);
-        palabrasReservadas.put("verdadero", TipoToken.VERDADERO);
+        palabrasReservadas.put("this", TipoToken.THIS);
+        palabrasReservadas.put("true", TipoToken.TRUE);
         palabrasReservadas.put("var", TipoToken.VAR);
-        palabrasReservadas.put("mientras", TipoToken.MIENTRAS);
+        palabrasReservadas.put("while", TipoToken.WHILE);
+        palabrasReservadas.put("int", TipoToken.INT);
+        palabrasReservadas.put("main", TipoToken.MAIN);
+        
     }
 
     Scanner(String source){
@@ -71,15 +74,15 @@ class Scanner {
                     if (!Numerico(c)) {
                         estado = estado.INICIO;
                         String palabra = source.substring(start, current - 1);
-                        TipoToken tipo = palabrasReservadas.getOrDefault(palabra, TipoToken.PALABRA_RESERVADA);
-                        tokens.add(new Token(tipo, palabra, palabra, linea));
+                        TipoToken tipo = palabrasReservadas.getOrDefault(palabra, TipoToken.ERROR);
+                        tokens.add(new Token(tipo, palabra, tipo.PALABRA_RESERVADA, linea));
                         current--;
                     }
                     break;
                 case NUMERO:
                     if (!Character.isDigit(c)) {
                         estado = estado.INICIO;
-                        String numero = source.substring(start, current - 1);
+                        String numero = source.substring(start, current -1 );
                         tokens.add(new Token(TipoToken.NUMERO, numero, Integer.parseInt(numero), linea));
                         current--;
                     }
@@ -87,7 +90,7 @@ class Scanner {
                 case CADENA:
                     if (c == '"') {
                         estado = estado.INICIO;
-                        String value = source.substring(start + 1, current - 1);
+                        String value = source.substring(start , current - 1);
                         tokens.add(new Token(TipoToken.CADENA, value, value, linea));
                     }
                     break;
