@@ -1,5 +1,5 @@
-Sintactico/Principal.java
 package analizador_sintactico1;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
